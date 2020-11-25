@@ -1,0 +1,233 @@
+﻿@page
+@{}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Restaurant Food Menu Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body style="background-color:azure">
+    <div>
+        <!-- Main Area where data will display-->
+        <div class="container">
+            <div class="row">
+                <h1 style="text-align:center; font-family:Century;">Restaurant Food Menu Details</h1>
+            </div>
+            <div class="row">
+                <button class="btn btn-success" data-toggle="modal" data-target="#insertDetails">Insert Food Details</button>
+            </div>
+            <br />
+            <div class="row" id="FoodDetailsSection"></div>
+        </div>
+    </div>
+    <!-- web form to insert the data-->
+    <div class="modal" tabindex="-1" role="dialog" id="insertDetails">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Insert New Record</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="FoodItemName">Food Item Name</label>
+                            <input type="text" class="form-control" id="Food_ItemName" aria-describedby="Food_ItemNameHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="FoodItemType">Food Type</label>
+                            <select class="form-control" id="Food_ItemType">
+                                <option value="Non-Veg">Non-vegetarian</option>
+                                <option value="Vegetarian">Vegetarian</option>
+                                <option value="Vegan">Vegan</option>
+                                <option value="Gluten_Free">Gluten Free</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="FoodItemDescription">Description</label>
+                            <input type="text" class="form-control" id="Food_ItemDescription" aria-describedby="Food_ItemDescriptionHelp">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="FoodPrice">Food Price</label>
+                            <input type="text" class="form-control" id="FoodPrice" aria-describedby="FoodPriceHelp">
+                        </div>
+                        <div class="form-group" id="result">
+                        </div>
+                        <button type="button" onclick="insert()" class="btn btn-danger">Insert</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- web form to update the data-->
+    <div class="modal" tabindex="-1" role="dialog" id="UpdateDetails">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Record</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="Edit_id" aria-describedby="Id_Help">
+                        </div>
+                        <div class="form-group">
+                            <label for="FoodItemName">Food Item Name</label>
+                            <input type="text" class="form-control" id="Edit_Food_ItemName" aria-describedby="Food_ItemNameHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="FoodItemType">Food Type</label>
+                            <select class="form-control" id="Edit_Food_ItemType">
+                                <option value="Non-Veg">Non-vegetarian</option>
+                                <option value="Vegetarian">Vegetarian</option>
+                                <option value="Vegan">Vegan</option>
+                                <option value="Gluten_Free">Gluten Free</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="FoodItemDescription">Description</label>
+                            <input type="text" class="form-control" id="Edit_FoodItemDescription" aria-describedby="Food_ItemDescriptionHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="FoodPrice">Food Price</label>
+                            <input type="text" class="form-control" id="Edit_FoodPrice" aria-describedby="FoodPriceHelp">
+                        </div>
+                        <div class="form-group" id="resultUpdate">
+                        </div>
+                        <button type="button" onclick="Update()" class="btn btn-danger">Modify</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- JavaScript Files-->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+        var uri = 'api/Food_Items';
+        $(document).ready(function () {
+            // Gets all data
+            $.getJSON(uri).done(function (data) {
+                $("#Main_temp").tmpl(data).appendTo("#FoodDetailsSection");
+            });
+        });
+        function FoodData() {
+            $.getJSON(uri).done(function (data) {
+                $("#FoodDetailsSection").text("");
+                $("#Main_temp").tmpl(data).appendTo("#FoodDetailsSection");
+            });
+        }
+        //function to Insert Data
+        function insert() {
+            var _Food_ItemName = $('#Food_ItemName').val();
+            var _Food_ItemType = $('#Food_ItemType').val();
+            var _FoodItemDescription = $('#Food_ItemDescription').val();
+            var _FoodPrice = $('#FoodPrice').val();
+
+            var FoodData_Object = {
+                food_Item_Name: _Food_ItemName,
+                food_Type: _Food_ItemType,
+                description: _FoodItemDescription,
+                price: parseFloat(_FoodPrice)
+            };
+            $.ajax({
+                type: "POST",
+                url: uri,
+                data: JSON.stringify(FoodData_Object),
+                contentType: "application/json; charset=utf-8"
+            }).done(function (response) {
+                $("#result").html("Record inserted successfully");
+                FoodData();
+            }).fail(function (jqXHR, textStatus) {
+                $("#result").html("Record is not inserted. There is an error");
+            });
+        }
+           //function to Update Data
+        function Update() {
+            var _Food_ItemName = $('#Edit_Food_ItemName').val();
+            var _Food_ItemType = $('#Edit_Food_ItemType').val();
+            var _FoodItemDescription = $('#Edit_FoodItemDescription').val();
+            var _FoodPrice = $('#Edit_FoodPrice').val();
+
+            var FoodUpdateData_Obj = {
+                id: parseInt($('#Edit_id').val()),
+                food_Item_Name: _Food_ItemName,
+                food_Type: _Food_ItemType,
+                description: _FoodItemDescription,
+                price: parseFloat(_FoodPrice)
+            };
+            $.ajax({
+                type: "PUT",
+                url: uri + "/" + $('#Edit_id').val(),
+                data: JSON.stringify(FoodUpdateData_Obj),
+                contentType: "application/json; charset=utf-8"
+            }).done(function (response) {
+                $("#resultUpdate").html("Record updated successfully");
+                FoodData();
+            }).fail(function (jqXHR, textStatus) {
+                $("#resultUpdate").html("Record is not inserted. There is an error");
+            });
+        }
+        // function to remove record
+        function remove(id) {
+            var yes = confirm("Do you really want to delete this account?");
+            if (yes) {
+                $.ajax({
+                    type: "DELETE",
+                    url: uri + "/" + id,
+                }).done(function (response) {
+                    FoodData();
+                });
+            }
+        }
+        //function to display data in update form
+        function UpdateRecord(id) {
+            $.ajax({
+                type: "GET",
+                url: uri + "/" + id,
+                contentType: "application/json"
+            }).done(function (response) {
+                $('#Edit_id').val(response.id);
+                $('#Edit_Food_ItemName').val(response.food_Item_Name);
+                $('#Edit_Food_ItemType').val(response.food_Type);
+                $('#Edit_FoodItemDescription').val(response.description);
+                $('#Edit_FoodPrice').val(response.price);
+            });
+        }
+    
+    </script>
+    <!--Template to display data-->
+    <script id="Main_temp" type="text/x-jquery-tmpl">
+        <div class="col-lg-12">
+            <div class="card border-secondary mb-3">
+                <img src="" class="card-img-top" alt="">
+                <div class="card-body">
+                    <h5 class="card-title">Food Item Name: ${food_Item_Name}</h5>
+                    <p class="card-title"><b>Food Item Type:</b> ${food_Type}</p>
+                    <p class="card-text"><b>Description:</b> ${description}</p>
+                    <p class="card-text"><b>Food Price:</b> ${price} Dollars</p>
+                    <button class="btn btn-outline-danger" onclick="UpdateRecord('${id}')" data-toggle="modal" data-target="#UpdateDetails">Update</button>
+                    <a href="#" class="btn btn-outline-dark" onclick="remove('${id}')">Delete</a>
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+</html>
+
+

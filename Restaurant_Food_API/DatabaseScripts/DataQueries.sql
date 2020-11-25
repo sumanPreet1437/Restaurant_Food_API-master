@@ -1,0 +1,7 @@
+﻿SET IDENTITY_INSERT [dbo].[Food_Items] ON
+INSERT INTO [dbo].[Food_Items] ([Id], [Food_Item_Name], [Food_Type], [Description], [Price]) VALUES (2, N'Butter Chicken', N'Non-Veg', N'Tandoor cooked chicken tikka simmered in creamy tomato gravy.', CAST(20.95 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Food_Items] ([Id], [Food_Item_Name], [Food_Type], [Description], [Price]) VALUES (3, N'Paneer Butter Masala', N'Vegetarian', N'Cottage cheese cooked with chef’s special gravy.', CAST(18.50 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Food_Items] ([Id], [Food_Item_Name], [Food_Type], [Description], [Price]) VALUES (4, N'Aloo Shimla Mirch ', N'Gluten_Free', N'Fresh green pepper cooked in a spiced sauce with potatoes.', CAST(18.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Food_Items] ([Id], [Food_Item_Name], [Food_Type], [Description], [Price]) VALUES (5, N'Paneer Makhani', N'Vegetarian', N'Cottage cheese cooked in tomato, ginger, spices and creamy gravy', CAST(18.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Food_Items] ([Id], [Food_Item_Name], [Food_Type], [Description], [Price]) VALUES (6, N'Aloo Gobi', N'Vegan', N'	Fresh potatoes cooked in a spiced sauce with cauliflower, onion and tomato base.', CAST(17.50 AS Decimal(18, 2)))
+SET IDENTITY_INSERT [dbo].[Food_Items] OFF
