@@ -6,12 +6,12 @@
     <title>Restaurant Food Menu Details</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body style="background-color:azure">
+<body style="background: url('@Url.Content("~/Images/sala-a-restaurant.jpg")');">
     <div>
         <!-- Main Area where data will display-->
         <div class="container">
             <div class="row">
-                <h1 style="text-align:center; font-family:Century;">Restaurant Food Menu Details</h1>
+                <h1 style="text-align:center; font-family:Century;color:white;">Restaurant Food Menu Details</h1>
             </div>
             <div class="row">
                 <button class="btn btn-success" data-toggle="modal" data-target="#insertDetails">Insert Food Details</button>
@@ -157,7 +157,7 @@
                 $("#result").html("Record is not inserted. There is an error");
             });
         }
-           //function to Update Data
+        //function to Update Data
         function Update() {
             var _Food_ItemName = $('#Edit_Food_ItemName').val();
             var _Food_ItemType = $('#Edit_Food_ItemType').val();
@@ -209,7 +209,7 @@
                 $('#Edit_FoodPrice').val(response.price);
             });
         }
-    
+
     </script>
     <!--Template to display data-->
     <script id="Main_temp" type="text/x-jquery-tmpl">
@@ -221,7 +221,6 @@
                     <p class="card-title"><b>Food Item Type:</b> ${food_Type}</p>
                     <p class="card-text"><b>Description:</b> ${description}</p>
                     <p class="card-text"><b>Food Price:</b> ${price} Dollars</p>
-                    <button class="btn btn-outline-danger" onclick="UpdateRecord('${id}')" data-toggle="modal" data-target="#UpdateDetails">Update</button>
                     <a href="#" class="btn btn-outline-dark" onclick="remove('${id}')">Delete</a>
                 </div>
             </div>

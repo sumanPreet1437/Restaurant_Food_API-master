@@ -44,6 +44,8 @@ namespace Restaurant_Food_API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
